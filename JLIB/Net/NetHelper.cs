@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Text;
 
 namespace JLIB.Net
@@ -10,6 +11,8 @@ namespace JLIB.Net
     public sealed class NetHelper
     {
         #region Static fields, properties and methods.
+        private static readonly IPAddress ssdpMulticastAddress = IPAddress.Parse("239.255.255.250");
+
         public static NetHelper Create()
         {
             if (!NetworkInterface.GetIsNetworkAvailable())
@@ -64,7 +67,9 @@ namespace JLIB.Net
 
             _defaultGateway = ipInterfaceProperties.GatewayAddresses[0].Address;
             _natPmpEndPoint =  new IPEndPoint(_defaultGateway, 5351);
-            _ssdpEndPoint = new IPEndPoint(ipInterfaceProperties.MulticastAddresses.First().Address, 1900);
+
+            bool hasSSDPMulticast = ipInterfaceProperties.MulticastAddresses.Count(a => a.Address != null && a.Address.Equals(ssdpMulticastAddress)) > 0;
+            _ssdpEndPoint = hasSSDPMulticast ? new IPEndPoint(ssdpMulticastAddress, 1900) : null;
         }
 
         /// <summary>
@@ -81,7 +86,7 @@ namespace JLIB.Net
             _natPmpEndPoint;
 
         /// <summary>
-        /// Returns the end point of where Simple Service Discovery Porotcol (SSDP) data should be sent and received from. (The multicast address on port 1900)
+        /// Returns the end point of where Simple Service Discovery Porotcol (SSDP) data should be sent and received from (The SSDP multicast address on port 1900). If the SSDP multicast address is not defined within the provided interface, the returned value will be <c>null</c>.
         /// </summary>
         /// <remarks><i>"The clients send their request in the form of UDP packets to the port 5351 of the default gateway" - http://miniupnp.free.fr/nat-pmp.html</i></remarks>
         public IPEndPoint SSDPEndPoint =>
