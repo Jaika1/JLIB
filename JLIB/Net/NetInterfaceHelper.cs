@@ -16,7 +16,7 @@ namespace JLIB.Net
     /// <item>Providing an endpoint for SSDP communications</item>
     /// </list>
     /// </summary>
-    public sealed class NetHelper
+    public sealed class NetInterfaceHelper
     {
         #region Static fields, properties and methods.
         /// <summary>
@@ -29,7 +29,7 @@ namespace JLIB.Net
         /// </summary>
         /// <returns>A new <c>NetHelper</c> instance built using an interface that meets the aformentioned criteria.</returns>
         /// <exception cref="Exception">Thrown if no network connections are currently available, or if none of the available network interfaces meet the provided criteria.</exception>
-        public static NetHelper Create()
+        public static NetInterfaceHelper Create()
         {
             if (!NetworkInterface.GetIsNetworkAvailable())
                 throw new Exception("No network connections are currently available.");
@@ -52,8 +52,8 @@ namespace JLIB.Net
         /// </summary>
         /// <param name="netInterface">The network interface to create a helper for.</param>
         /// <returns>A new <c>NetHelper</c> instance built around <paramref name="netInterface"/>.</returns>
-        public static NetHelper CreateFromInterface(NetworkInterface netInterface)
-            => new NetHelper(netInterface);
+        public static NetInterfaceHelper CreateFromInterface(NetworkInterface netInterface)
+            => new NetInterfaceHelper(netInterface);
         #endregion
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace JLIB.Net
         /// Constructor used by the <c>CreateFromInterface</c> method to create a new <c>NetHelper</c> instance bound to the specified network interface. Hidden, since going through the method is likely more descriptive, and the predicted infrequency of calls made to it means the performance impact of such a desicion should be neglegable.
         /// </summary>
         /// <param name="netInterface">The network interface to construct this helper around.</param>
-        private NetHelper(NetworkInterface netInterface)
+        private NetInterfaceHelper(NetworkInterface netInterface)
         {
             _networkInterface = netInterface;
             IPInterfaceProperties ipInterfaceProperties = _networkInterface.GetIPProperties();
