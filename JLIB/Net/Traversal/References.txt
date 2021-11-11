@@ -1,0 +1,2 @@
+﻿http://miniupnp.free.fr/nat-pmp.html - Exellent NAT-PMP TL;DR
+https://openconnectivity.org/developer/specifications/upnp-resources/upnp/ - UPnP standards and specifications download
