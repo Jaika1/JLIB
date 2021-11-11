@@ -69,12 +69,12 @@ namespace JLIB.Net
         /// <summary>
         /// Cached instance to be fetched by the <c>NATPMPEndPoint</c> property.
         /// </summary>
-        /// <see cref="NATPMPEndPoint"/>
+        /// <see cref="NatPmpEndPoint"/>
         private IPEndPoint _natPmpEndPoint;
         /// <summary>
         /// Cached instance to be fetched by the <c>SSDPEndPoint</c> property.
         /// </summary>
-        /// <see cref="SSDPEndPoint"/>
+        /// <see cref="SsdpEndPoint"/>
         private IPEndPoint _ssdpEndPoint;
 
         /// <summary>
@@ -103,14 +103,13 @@ namespace JLIB.Net
         /// Returns the end point of where Network Address Translation Port Mapping Protocol (NAT-PMP) data should be sent and received from. (The default gateway address on port 5351)
         /// </summary>
         /// <remarks><i>"The clients send their request in the form of UDP packets to the port 5351 of the default gateway" - http://miniupnp.free.fr/nat-pmp.html</i></remarks>
-        public IPEndPoint NATPMPEndPoint =>
+        public IPEndPoint NatPmpEndPoint =>
             _natPmpEndPoint;
 
         /// <summary>
         /// Returns the end point of where Simple Service Discovery Porotcol (SSDP) data should be sent and received from (The SSDP multicast address on port 1900). If the SSDP multicast address is not defined within the provided interface, the returned value will be <c>null</c>.
         /// </summary>
-        /// <remarks><i>"The clients send their request in the form of UDP packets to the port 5351 of the default gateway" - http://miniupnp.free.fr/nat-pmp.html</i></remarks>
-        public IPEndPoint SSDPEndPoint =>
+        public IPEndPoint SsdpEndPoint =>
             _ssdpEndPoint;
     }
 }
