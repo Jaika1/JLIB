@@ -8,11 +8,27 @@ using System.Text;
 
 namespace JLIB.Net
 {
+    /// <summary>
+    /// Helper methods and properties to assist in performing advanced networking-related tasks based around interfaces, including:
+    /// <list type="bullet">
+    /// <item>Providing the default gateway for an interface</item>
+    /// <item>Providing an endpoint for NAT-PMP communications</item>
+    /// <item>Providing an endpoint for SSDP communications</item>
+    /// </list>
+    /// </summary>
     public sealed class NetHelper
     {
         #region Static fields, properties and methods.
+        /// <summary>
+        /// A reference of the IPv4 SSDP multicast address used during instantiation to determine if an interface supports SSDP.
+        /// </summary>
         private static readonly IPAddress ssdpMulticastAddress = IPAddress.Parse("239.255.255.250");
 
+        /// <summary>
+        /// Creates and returns a new <c>NetHelper</c> instance using the first network interface that is currently operational (up), excluding any loopback interfaces.
+        /// </summary>
+        /// <returns>A new <c>NetHelper</c> instance built using an interface that meets the aformentioned criteria.</returns>
+        /// <exception cref="Exception">Thrown if no network connections are currently available, or if none of the available network interfaces meet the provided criteria.</exception>
         public static NetHelper Create()
         {
             if (!NetworkInterface.GetIsNetworkAvailable())
@@ -31,6 +47,11 @@ namespace JLIB.Net
             return CreateFromInterface(firstInterface);
         }
 
+        /// <summary>
+        /// Creates and returns a new <c>NetHelper</c> instance using interface <paramref name="netInterface"/>.
+        /// </summary>
+        /// <param name="netInterface">The network interface to create a helper for.</param>
+        /// <returns>A new <c>NetHelper</c> instance built around <paramref name="netInterface"/>.</returns>
         public static NetHelper CreateFromInterface(NetworkInterface netInterface)
             => new NetHelper(netInterface);
         #endregion
