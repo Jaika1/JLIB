@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace JLIB.Utils.Random
 {
@@ -13,7 +14,7 @@ namespace JLIB.Utils.Random
 #endif
     public static class SharedRandom
     {
-        private static ThreadLocal<System.Random> _random = new ThreadLocal<System.Random>();
+        private static ThreadLocal<System.Random> _random = new ThreadLocal<System.Random>(() => new System.Random());
 
         /// <summary>
         /// Provides a thread-safe instance of <c>System.Random</c>.
